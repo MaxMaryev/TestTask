@@ -1,5 +1,15 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+
+[CreateAssetMenu(fileName = "ItemDatas", menuName = "SO/ItemDatas", order = 65)]
+public class ItemDatas : ScriptableObject
+{
+    [SerializeField] private List<ItemData> _datas;
+
+    public ItemData GetData(ItemName name) => _datas.FirstOrDefault(data => data.Name == name);
+}
 
 [Serializable]
 public class ItemData

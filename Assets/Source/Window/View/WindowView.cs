@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,48 +7,32 @@ public class WindowView : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _label;
     [SerializeField] private TextMeshProUGUI _description;
+    [SerializeField] private Image _bigIcon;
     [SerializeField] private Transform _itemsGridTransform;
     [SerializeField] private ItemCellView _itemCellPrefab;
     [SerializeField] private BuyButtonView _buyButton;
-    [SerializeField] private ItemsSO _itemsSO;
 
-    public void Initialize(string label, string description, float price, float discount)
+    public void Initialize(WindowData windowData)
     {
-        _label.text = label;
-        _description.text = description;
-        _buyButton.DisplayPrice(price, discount);
+        _label.text = windowData.Label;
+        _bigIcon.sprite = windowData.BigIcon;
+        _description.text = windowData.Description;
+        _buyButton.DisplayPrice(windowData.Price, windowData.Discount);
     }
 
-    public void Display(int stoneCount, int woodCount)
+    public void Display(IReadOnlyList<ItemData> itemDatas)
     {
         Clear();
-        int totalItemsCount = stoneCount + woodCount;
 
-        if (ValidateItemsCount(totalItemsCount) == false)
-            return;
-
-        for (int i = 0; i < stoneCount; i++)
-        {
-            Instantiate(_itemCellPrefab, _itemsGridTransform)
-                .Initialize(_itemsSO.GetDataByName(ItemName.Камень));
-        }
-
-        for (int i = 0; i < woodCount; i++)
-        {
-            Instantiate(_itemCellPrefab, _itemsGridTransform)
-                .Initialize(_itemsSO.GetDataByName(ItemName.Дерево));
-        }
+        foreach (var itemData in itemDatas)
+            Instantiate(_itemCellPrefab, _itemsGridTransform).Initialize(itemData);
     }
 
     private void Clear()
     {
-        List<ItemCellView> itemCells = _itemsGridTransform.GetComponentsInChildren<ItemCellView>().ToList();
+        ItemCellView[] itemCells = _itemsGridTransform.GetComponentsInChildren<ItemCellView>();
 
-        for (int i = 0; i < itemCells.Count; i++)
-        {
+        for (int i = 0; i < itemCells.Length; i++)
             Destroy(itemCells[i].gameObject);
-        }
     }
-
-    private bool ValidateItemsCount(int itemsCount) => itemsCount >= 3 && itemsCount <= 6;
 }

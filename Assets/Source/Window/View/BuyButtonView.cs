@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class BuyButtonView : MonoBehaviour
 {
+    [SerializeField] private float _fontReductionRatio;
     [SerializeField] private TextMeshProUGUI _price;
     [SerializeField] private Image _discountIcon; 
     [SerializeField] private TextMeshProUGUI _discount;
@@ -19,7 +20,8 @@ public class BuyButtonView : MonoBehaviour
         {
             float discountPrice = price * (100 - discount) / 100;
             float fontSize = _price.fontSize;
-            _price.text = $"${discountPrice:0.00}\n<color=#D9D9D9><size={fontSize*0.95f}><s>${price}</s></size></color>";
+            float reducedFontSize = fontSize * _fontReductionRatio;
+            _price.text = $"${discountPrice:0.00}\n<color=#D9D9D9><size={reducedFontSize}><s>${price}</s></size></color>";
             _discount.text = $"-{discount}%";
             _discountIcon.gameObject.SetActive(true);
         }

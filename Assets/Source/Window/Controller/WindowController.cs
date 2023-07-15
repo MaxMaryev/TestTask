@@ -1,41 +1,64 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class WindowController : MonoBehaviour
 {
+    [SerializeField] private List<ItemsCountInput> _itemsCountInputs;
+    [SerializeField] private int _minTotalItemsCount;
+    [SerializeField] private int _maxTotalItemsCount;
+    [Space(20)]
     [SerializeField] private Button _openWindowButton;
-    [SerializeField] private InputField _stonesCountInput;
-    [SerializeField] private InputField _woodCountInput;
     [SerializeField] private WindowModel _windowModel;
+    [SerializeField] private WindowView _windowView;
+
+    private Dictionary<ItemName, int> _itemCounts = new Dictionary<ItemName, int>();
 
     private void OnEnable()
     {
-        _openWindowButton.onClick.AddListener(OnBuyButtonClick);
-        _stonesCountInput.onEndEdit.AddListener(OnItemsCountInputted);
-        _woodCountInput.onEndEdit.AddListener(OnItemsCountInputted);
+        _openWindowButton.onClick.AddListener(OnOpenButtonClick);
+
+        foreach (var input in _itemsCountInputs)
+            input.Done += OnItemsCountInputted;
     }
 
     private void OnDisable()
     {
-        _openWindowButton.onClick.RemoveListener(OnBuyButtonClick);
-        _stonesCountInput.onEndEdit.RemoveListener(OnItemsCountInputted);
-        _woodCountInput.onEndEdit.RemoveListener(OnItemsCountInputted);
+        _openWindowButton.onClick.RemoveListener(OnOpenButtonClick);
+
+        foreach (var input in _itemsCountInputs)
+            input.Done -= OnItemsCountInputted;
     }
 
-    private void OnBuyButtonClick()
+    private void OnOpenButtonClick()
     {
-        _windowModel.gameObject.SetActive(true);
-        _stonesCountInput.gameObject.SetActive(true);
-        _woodCountInput.gameObject.SetActive(true);
+        if (ValidateItemsCount() == false)
+            return;
+
+        _openWindowButton.gameObject.SetActive(false);
+        _windowView.gameObject.SetActive(true);
+
+        foreach (var input in _itemsCountInputs)
+            input.gameObject.SetActive(false);
     }
 
-    private void OnItemsCountInputted(string input)
+    private void OnItemsCountInputted()
     {
-        int.TryParse(_stonesCountInput.text, out int stonesCount);
-        int.TryParse(_woodCountInput.text, out int woodCount);
+        _itemCounts.Clear();
 
-        int totalItemsCount = stonesCount + woodCount;
+        foreach (var inputField in _itemsCountInputs)
+            _itemCounts.Add(inputField.ItemName, inputField.Value);
 
-        _windowModel.UpdateCellsCount(stonesCount, woodCount);
+        _windowModel.UpdateItemsCount(_itemCounts);
+    }
+
+    private bool ValidateItemsCount()
+    {
+        int totalItemsCount = 0;
+
+        foreach (var inputField in _itemsCountInputs)
+            totalItemsCount += inputField.Value;
+
+        return totalItemsCount >= _minTotalItemsCount && totalItemsCount <= _maxTotalItemsCount;
     }
 }
