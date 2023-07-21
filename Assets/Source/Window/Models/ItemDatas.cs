@@ -21,6 +21,6 @@ public class ItemData
 
 public enum ItemName
 {
-    Дерево,
-    Камень
+    Wood,
+    Stone
 }
