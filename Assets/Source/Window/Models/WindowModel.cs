@@ -1,40 +1,45 @@
 using System.Collections.Generic;
 using Zenject;
 
-public class WindowModel
+namespace JustMobyTestTask
 {
-    private OfferType _offerType;
-    private WindowDatas _windowDatas;
-    private ItemDatas _itemDatas;
-    private List<ItemData> _items = new List<ItemData>();
-    private WindowData _windowData;
-    private SignalBus _signalBus;
-
-    public WindowModel(SignalBus signalBus, OfferType offerType, WindowDatas windowDatas, ItemDatas itemDatas)
+    public class WindowModel : IInitializable
     {
-        _signalBus = signalBus;
-        _offerType = offerType;
-        _windowDatas = windowDatas;
-        _itemDatas = itemDatas;
+        private OfferType _offerType;
+        private WindowDatas _windowDatas;
+        private ItemDatas _itemDatas;
+        private List<ItemData> _items = new List<ItemData>();
+        private WindowData _windowData;
+        private SignalBus _signalBus;
 
-        _windowData = _windowDatas.GetData(_offerType);
-        _signalBus.Fire(new WindowDataInitializedSignal(_windowData));
-    }
+        public WindowModel(SignalBus signalBus, OfferType offerType, WindowDatas windowDatas, ItemDatas itemDatas)
+        {
+            _signalBus = signalBus;
+            _offerType = offerType;
+            _windowDatas = windowDatas;
+            _itemDatas = itemDatas;
+        }
 
-    public void UpdateItemsCount(IReadOnlyDictionary<ItemName, int> itemsCountInputs)
-    {
-        _items.Clear();
+        public void Initialize()
+        {
+            _windowData = _windowDatas.GetData(_offerType);
+            _signalBus.Fire(new WindowDataInitializedSignal(_windowData));
+        }
 
-        foreach (var input in itemsCountInputs)
-            InitializeItems(_itemDatas.GetData(input.Key), itemsCountInputs[input.Key]);
+        public void UpdateItemsCount(IReadOnlyDictionary<ItemName, int> itemsCountInputs)
+        {
+            _items.Clear();
 
-        _signalBus.Fire(new ItemsCountUpdatedSignal(_items));
-    }
+            foreach (var input in itemsCountInputs)
+                InitializeItems(_itemDatas.GetData(input.Key), itemsCountInputs[input.Key]);
 
-    private void InitializeItems(ItemData itemData, int count)
-    {
-        for (int i = 0; i < count; i++)
-            _items.Add(itemData);
+            _signalBus.Fire(new ItemsCountUpdatedSignal(_items));
+        }
+
+        private void InitializeItems(ItemData itemData, int count)
+        {
+            for (int i = 0; i < count; i++)
+                _items.Add(itemData);
+        }
     }
 }
-

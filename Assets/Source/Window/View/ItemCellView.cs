@@ -2,14 +2,17 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemCellView : MonoBehaviour
+namespace JustMobyTestTask
 {
-    [SerializeField] private Image _icon;
-    [SerializeField] private TextMeshProUGUI _stackCapacity;
-
-    public void Initialize(ItemData itemData)
+    public class ItemCellView : MonoBehaviour
     {
-        _icon.sprite = itemData.Sprite;
-        _stackCapacity.text = itemData.StackCapacity.ToString();
+        [SerializeField] private Image _icon;
+        [SerializeField] private TextMeshProUGUI _stackCapacity;
+
+        public void Initialize(ItemData itemData)
+        {
+            _icon.sprite = itemData.Sprite;
+            _stackCapacity.text = itemData.StackCapacity.ToString();
+        }
     }
 }
