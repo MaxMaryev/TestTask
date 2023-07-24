@@ -554,7 +554,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 286475469}
-  - component: {fileID: 286475470}
   - component: {fileID: 286475471}
   m_Layer: 5
   m_Name: Window
@@ -584,18 +583,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &286475470
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 286475468}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7776e31e929849048a45a5e53802c7b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &286475471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -608,13 +595,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc78a4831714b054f9820dea91e2016b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemsCountInputs:
-  - {fileID: 1525956125}
-  - {fileID: 867958907}
-  _minTotalItemsCount: 3
-  _maxTotalItemsCount: 6
-  _openWindowButton: {fileID: 1392745887}
-  _windowModel: {fileID: 286475470}
   _windowView: {fileID: 1114188217}
 --- !u!1 &338397946
 GameObject:
@@ -1974,12 +1954,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 865a173204904064baf35bec7698acc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _label: {fileID: 248913057}
-  _description: {fileID: 703951475}
-  _bigIcon: {fileID: 23903919}
-  _itemsGridTransform: {fileID: 1620619083}
-  _itemCellPrefab: {fileID: 9175069196395132020, guid: b1d6dd3aedf930e46b7310a095c61488, type: 3}
-  _buyButton: {fileID: 924329819}
 --- !u!222 &1114188218
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2502,18 +2476,16 @@ MonoBehaviour:
   _offerType: 0
   _windowDatas: {fileID: 11400000, guid: 8b06b4f71847f5f4195889edb0d338a5, type: 2}
   _itemDatas: {fileID: 11400000, guid: a18b45bde1f1db04682303d4899a1f2f, type: 2}
-  _label: {fileID: 0}
-  _description: {fileID: 0}
-  _bigIcon: {fileID: 0}
-  _itemsGridTransform: {fileID: 0}
-  _itemCellPrefab: {fileID: 0}
-  _buyButton: {fileID: 0}
-  _itemsCountInputs: []
-  _minTotalItemsCount: 0
-  _maxTotalItemsCount: 0
-  _openWindowButton: {fileID: 0}
-  _windowModel: {fileID: 0}
-  _windowView: {fileID: 0}
+  _itemsCountInputs:
+  - {fileID: 1525956125}
+  - {fileID: 867958907}
+  _openWindowButton: {fileID: 1392745887}
+  _label: {fileID: 248913057}
+  _description: {fileID: 703951475}
+  _bigIcon: {fileID: 23903919}
+  _itemsGridTransform: {fileID: 1620619083}
+  _itemCellPrefab: {fileID: 9175069196395132020, guid: b1d6dd3aedf930e46b7310a095c61488, type: 3}
+  _buyButton: {fileID: 924329819}
 --- !u!1 &1824835842
 GameObject:
   m_ObjectHideFlags: 0

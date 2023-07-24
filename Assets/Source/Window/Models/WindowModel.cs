@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using UnityEngine;
 using Zenject;
 
-public class WindowModel : MonoBehaviour
+public class WindowModel
 {
     private OfferType _offerType;
     private WindowDatas _windowDatas;
@@ -11,17 +10,13 @@ public class WindowModel : MonoBehaviour
     private WindowData _windowData;
     private SignalBus _signalBus;
 
-    [Inject]
-    public void Constuct(SignalBus signalBus, OfferType offerType, WindowDatas windowDatas, ItemDatas itemDatas)
+    public WindowModel(SignalBus signalBus, OfferType offerType, WindowDatas windowDatas, ItemDatas itemDatas)
     {
         _signalBus = signalBus;
         _offerType = offerType;
         _windowDatas = windowDatas;
         _itemDatas = itemDatas;
-    }
 
-    private void OnEnable()
-    {
         _windowData = _windowDatas.GetData(_offerType);
         _signalBus.Fire(new WindowDataInitializedSignal(_windowData));
     }

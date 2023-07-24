@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,27 +6,30 @@ using Zenject;
 
 public class WindowInstaller : MonoInstaller
 {
+    [Header("_____" + nameof(WindowModel))]
     [SerializeField] private OfferType _offerType;
     [SerializeField] private WindowDatas _windowDatas;
     [SerializeField] private ItemDatas _itemDatas;
-    [Space(20)]
+
+    [Header("_____" + nameof(WindowController))]
+    [SerializeField] private List<ItemsCountInput> _itemsCountInputs;
+    [SerializeField] private Button _openWindowButton;
+
+    [Header("_____" + nameof(WindowView))]
     [SerializeField] private TextMeshProUGUI _label;
     [SerializeField] private TextMeshProUGUI _description;
     [SerializeField] private Image _bigIcon;
     [SerializeField] private Transform _itemsGridTransform;
     [SerializeField] private ItemCellView _itemCellPrefab;
     [SerializeField] private BuyButtonView _buyButton;
-    [Space(20)]
-    [SerializeField] private List<ItemsCountInput> _itemsCountInputs;
-    [SerializeField] private int _minTotalItemsCount;
-    [SerializeField] private int _maxTotalItemsCount;
-    [SerializeField] private Button _openWindowButton;
-    [SerializeField] private WindowModel _windowModel;
-    [SerializeField] private WindowView _windowView;
+
+
     public override void InstallBindings()
     {
-        Container.Bind<WindowView>().AsSingle();
+        BindWindowController();
         BindWindowModel();
+        BindWindowView();
+
         DeclareSignals();
     }
 
@@ -48,11 +50,19 @@ public class WindowInstaller : MonoInstaller
 
     private void BindWindowView()
     {
-      
+        Container.Bind<WindowView>().AsSingle();
+        Container.Bind<TextMeshProUGUI>().WithId("label").FromInstance(_label);
+        Container.Bind<TextMeshProUGUI>().WithId("description").FromInstance(_description);
+        Container.Bind<Image>().WithId("bigIcon").FromInstance(_bigIcon);
+        Container.Bind<Transform>().WithId("itemsGridTransform").FromInstance(_itemsGridTransform);
+        Container.Bind<BuyButtonView>().FromInstance(_buyButton);
+        Container.Bind<ItemCellView>().FromInstance(_itemCellPrefab);
     }
 
     private void BindWindowController()
     {
 
+        Container.Bind<List<ItemsCountInput>>().FromInstance(_itemsCountInputs);
+        Container.Bind<Button>().FromInstance(_openWindowButton);
     }
 }
