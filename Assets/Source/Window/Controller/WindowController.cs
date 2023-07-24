@@ -4,7 +4,7 @@ using Zenject;
 
 namespace JustMobyTestTask
 {
-    public class WindowController
+    public class WindowController : IInitializable
     {
         private int _minTotalItemsCount;
         private int _maxTotalItemsCount;
@@ -29,22 +29,15 @@ namespace JustMobyTestTask
 
             _minTotalItemsCount = 3;
             _maxTotalItemsCount = 6;
+        }
 
+        public void Initialize()
+        {
             _openWindowButton.onClick.AddListener(OnOpenButtonClick);
             _buyButton.onClick.AddListener(OnBuyButtonClick);
-            _signalBus.Subscribe<BuyButtonClickedSignal>(Dispose);
 
             foreach (var input in _itemsCountInputs)
                 input.Done += OnItemsCountInputted;
-        }
-
-        public void Dispose()
-        {
-            _signalBus.Unsubscribe<BuyButtonClickedSignal>(Dispose);
-            _openWindowButton.onClick.RemoveListener(OnOpenButtonClick);
-
-            foreach (var input in _itemsCountInputs)
-                input.Done -= OnItemsCountInputted;
         }
 
         private void OnOpenButtonClick()
@@ -57,9 +50,18 @@ namespace JustMobyTestTask
 
             foreach (var input in _itemsCountInputs)
                 input.gameObject.SetActive(false);
+
         }
 
-        private void OnBuyButtonClick() => _signalBus.Fire(new BuyButtonClickedSignal());
+        private void OnBuyButtonClick()
+        {
+            _signalBus.Fire(new BuyButtonClickedSignal());
+
+            _openWindowButton.onClick.RemoveListener(OnOpenButtonClick);
+
+            foreach (var input in _itemsCountInputs)
+                input.Done -= OnItemsCountInputted;
+        }
 
         private void OnItemsCountInputted()
         {

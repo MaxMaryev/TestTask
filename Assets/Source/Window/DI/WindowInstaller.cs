@@ -31,8 +31,8 @@ namespace JustMobyTestTask
         {
             DeclareSignals();
 
-            BindWindowModel();
             BindWindowController();
+            BindWindowModel();
             BindWindowView();
         }
 
@@ -43,6 +43,14 @@ namespace JustMobyTestTask
             Container.DeclareSignal<WindowDataInitializedSignal>().RequireSubscriber();
             Container.DeclareSignal<WindowOpenedSignal>().RequireSubscriber();
             Container.DeclareSignal<BuyButtonClickedSignal>().RequireSubscriber();
+        }
+
+        private void BindWindowController()
+        {
+            Container.Bind<WindowController>().AsSingle().NonLazy();
+            Container.Bind<List<ItemsCountInput>>().FromInstance(_itemsCountInputs);
+            Container.Bind<Button>().WithId("openWindowButton").FromInstance(_openWindowButton);
+            Container.Bind<Button>().WithId("buyButton").FromInstance(_buyButton);
         }
 
         private void BindWindowModel()
@@ -67,16 +75,10 @@ namespace JustMobyTestTask
             Container.BindFactory<ItemCellView, WindowView.Factory>().FromComponentInNewPrefab(_itemCellPrefab);
         }
 
-        private void BindWindowController()
-        {
-            Container.Bind<WindowController>().AsSingle().NonLazy();
-            Container.Bind<List<ItemsCountInput>>().FromInstance(_itemsCountInputs);
-            Container.Bind<Button>().WithId("openWindowButton").FromInstance(_openWindowButton);
-            Container.Bind<Button>().WithId("buyButton").FromInstance(_buyButton);
-        }
-
         public override void Start()
         {
+            Container.Resolve<WindowController>().Initialize();
+            Container.Resolve<WindowView>().Initialize();
             Container.Resolve<WindowModel>().Initialize();
         }
     }

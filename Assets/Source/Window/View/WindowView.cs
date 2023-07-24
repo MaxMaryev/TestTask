@@ -5,7 +5,7 @@ using Zenject;
 
 namespace JustMobyTestTask
 {
-    public class WindowView
+    public class WindowView : IInitializable
     {
         private GameObject _windowViewGameObject;
         private TextMeshProUGUI _label;
@@ -33,7 +33,10 @@ namespace JustMobyTestTask
             _itemsGridTransform = itemsGridTransform;
             _buyButton = buyButton;
             _windowViewGameObject = windowViewGameObject;
+        }
 
+        public void Initialize()
+        {
             _signalBus.Subscribe<ItemsCountUpdatedSignal>(OnItemsCountUpdated);
             _signalBus.Subscribe<WindowDataInitializedSignal>(OnWindowDataInitialized);
             _signalBus.Subscribe<WindowOpenedSignal>(OnWindowOpened);
