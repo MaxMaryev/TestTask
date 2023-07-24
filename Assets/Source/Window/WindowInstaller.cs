@@ -22,6 +22,7 @@ public class WindowInstaller : MonoInstaller
     [SerializeField] private Transform _itemsGridTransform;
     [SerializeField] private ItemCellView _itemCellPrefab;
     [SerializeField] private BuyButtonView _buyButton;
+    [SerializeField] private GameObject _windowViewGameObject;
 
 
     public override void InstallBindings()
@@ -38,6 +39,7 @@ public class WindowInstaller : MonoInstaller
         SignalBusInstaller.Install(Container);
         Container.DeclareSignal<ItemsCountUpdatedSignal>().RequireSubscriber();
         Container.DeclareSignal<WindowDataInitializedSignal>().RequireSubscriber();
+        Container.DeclareSignal<WindowOpenedSignal>().RequireSubscriber();
     }
 
     private void BindWindowModel()
@@ -50,13 +52,16 @@ public class WindowInstaller : MonoInstaller
 
     private void BindWindowView()
     {
-        Container.Bind<WindowView>().AsSingle();
+        Container.Bind<WindowView>().AsSingle().NonLazy();
         Container.Bind<TextMeshProUGUI>().WithId("label").FromInstance(_label);
         Container.Bind<TextMeshProUGUI>().WithId("description").FromInstance(_description);
         Container.Bind<Image>().WithId("bigIcon").FromInstance(_bigIcon);
         Container.Bind<Transform>().WithId("itemsGridTransform").FromInstance(_itemsGridTransform);
+        Container.Bind<GameObject>().WithId("windowViewGameObject").FromInstance(_windowViewGameObject);
         Container.Bind<BuyButtonView>().FromInstance(_buyButton);
         Container.Bind<ItemCellView>().FromInstance(_itemCellPrefab);
+
+        Container.BindFactory<ItemCellView, WindowView.Factory>().FromComponentInNewPrefab(_itemCellPrefab);
     }
 
     private void BindWindowController()
