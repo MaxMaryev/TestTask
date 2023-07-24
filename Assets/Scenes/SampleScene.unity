@@ -596,10 +596,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7776e31e929849048a45a5e53802c7b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _offerType: 0
-  _windowDatas: {fileID: 11400000, guid: 8b06b4f71847f5f4195889edb0d338a5, type: 2}
-  _itemDatas: {fileID: 11400000, guid: a18b45bde1f1db04682303d4899a1f2f, type: 2}
-  _windowView: {fileID: 1114188217}
 --- !u!114 &286475471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2437,6 +2433,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1791323451}
   - component: {fileID: 1791323450}
+  - component: {fileID: 1791323452}
   m_Layer: 0
   m_Name: Zenject
   m_TagString: Untagged
@@ -2457,7 +2454,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
-  _monoInstallers: []
+  _monoInstallers:
+  - {fileID: 1791323452}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -2489,6 +2487,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1791323452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791323449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd3625e15c57a7f44bbf5d44bf980c49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _offerType: 0
+  _windowDatas: {fileID: 11400000, guid: 8b06b4f71847f5f4195889edb0d338a5, type: 2}
+  _itemDatas: {fileID: 11400000, guid: a18b45bde1f1db04682303d4899a1f2f, type: 2}
+  _label: {fileID: 0}
+  _description: {fileID: 0}
+  _bigIcon: {fileID: 0}
+  _itemsGridTransform: {fileID: 0}
+  _itemCellPrefab: {fileID: 0}
+  _buyButton: {fileID: 0}
+  _itemsCountInputs: []
+  _minTotalItemsCount: 0
+  _maxTotalItemsCount: 0
+  _openWindowButton: {fileID: 0}
+  _windowModel: {fileID: 0}
+  _windowView: {fileID: 0}
 --- !u!1 &1824835842
 GameObject:
   m_ObjectHideFlags: 0
